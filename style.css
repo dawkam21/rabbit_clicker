@@ -14,6 +14,7 @@ body {
     grid-template-rows: repeat(9, 1fr);
     gap: 40px;
     margin: auto;
+    text-align: center;
 }
 
 .rabbit img {
@@ -136,8 +137,15 @@ h1 {
 .rabbit {
     border: #000 1px solid;
     border-radius: 25px;
-    margin: 5px;
-    padding: 5px;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.rabbit:active {
+    transform: scale(0.95);
 }
 
 .hidden {
@@ -147,4 +155,13 @@ h1 {
 .error {
     color: red;
     margin-top: 10px;
+}
+
+.disabled {
+    opacity: 0.5; /* Element wygląda na nieaktywny */
+    pointer-events: none; /* Blokuje kliknięcia */
+}
+
+.disabled:hover {
+    cursor: not-allowed;
 }

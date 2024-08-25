@@ -27,6 +27,7 @@ const playerNameInputDisplay = document.querySelector('.playerNameInput');
 const countDisplay = document.getElementById('count');
 const wholeCountDisplay = document.getElementById('wholeCount');
 const errorMessage = document.getElementById('errorMessage');
+const submitButtonNewGame = document.querySelector('.submitButton');
 
 
 scoreDisplay.innerText = "Punkty: " + score;
@@ -58,6 +59,7 @@ function newGame() {
     localStorage.setItem('wholeCount', wholeCount);
     window.location.reload();
 }
+
 function startNewGame() {
     score = 0;
     clickPower = 1;
@@ -94,6 +96,11 @@ function submitName() {
     
     document.querySelector('.rabbit').classList.remove('disabled');
     // Tutaj można dodać funkcję rozpoczynającą nową grę
+    startNewGame();
+}
+
+function onRabbitClick() {
+    alert("Kliknięto na królika! Rozpoczynamy grę.");
     startNewGame();
 }
 
@@ -214,8 +221,10 @@ setInterval(() => {
 updatepeakRate();
 updateButtonState();
 
-clickButton.addEventListener('click', () => {
 
+        // Tutaj możesz dodać kod, który ma się wykonać po kliknięciu na królika
+clickButton.addEventListener('click', () => {
+        
     score += clickPower;
     scoreDisplay.innerText = "Punkty: " + score;
     localStorage.setItem('score', score);
@@ -223,7 +232,10 @@ clickButton.addEventListener('click', () => {
     updateButtonState();
     updateCount();
     updateWholeCount();
+
 });
+
+
 
 clickPrize1.addEventListener('click', () => {
 

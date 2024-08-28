@@ -10,7 +10,7 @@ let wholeCount = parseInt(localStorage.getItem('wholeCount')) || 0;
 // Elementy HTML
 const scoreDisplay = document.getElementById('scores');
 const highScoreDisplay = document.getElementById('highScore');
-const clickButton = document.querySelector('.rabbit');
+const rabbit = document.querySelector('.rabbit');
 const clickPowerDisplay = document.getElementById('powerValue');
 const clickPrize1 = document.getElementById('clickPrize1');
 const clickPrize2 = document.getElementById('clickPrize2');
@@ -29,7 +29,6 @@ const wholeCountDisplay = document.getElementById('wholeCount');
 const errorMessage = document.getElementById('errorMessage');
 const submitButtonNewGame = document.querySelector('.submitButton');
 
-
 scoreDisplay.innerText = "Punkty: " + score;
 countDisplay.innerText = "Liczba przyciśnięć: " + count;
 wholeCountDisplay.innerText = "Liczba przyciśnięć wszystkich graczy: " + wholeCount;
@@ -45,34 +44,52 @@ const requiredScorePerSec2 = 5000;
 const requiredScorePerSec3 = 30000;
 const requiredScorePerSec4 = 500000;
 
-function newGame() {
-    score = 0;
-    clickPower = 1;
-    pointsPerSecond = 0;
-    count = 0;
-    highScore = 0;
-    localStorage.setItem('score', score);
-    localStorage.setItem('clickPower', clickPower);
-    localStorage.setItem('pointsPerSecond', pointsPerSecond);
-    localStorage.setItem('highScore', highScore);
-    localStorage.setItem('count', count);
-    localStorage.setItem('wholeCount', wholeCount);
-    window.location.reload();
+// Funkcja tworząca element punktu i dodająca go do DOM
+function createPointElement(event) {
+    const pointsContainer = document.querySelector('.pointsContainer');
+    const rabbit = event.currentTarget;
+    const point = document.createElement('div');
+    point.className = 'point';
+    point.innerText = '+' + clickPower;
+
+    // Ustawienie punktu w miejscu kliknięcia wewnątrz elementu .rabbit
+    const rect = pointsContainer.getBoundingClientRect();
+    point.style.left = `${event.clientX - rect.left}px`;
+    point.style.top = `${event.clientY - rect.top}px`;
+
+    pointsContainer.appendChild(point);
+
+    // Usunięcie elementu po zakończeniu animacji
+    point.addEventListener('animationend', () => {
+        point.remove();
+    });
 }
 
-function startNewGame() {
+rabbit.addEventListener('click', createPointElement);
+
+function newGame() {
+
+    let previousScore = parseInt(localStorage.getItem('score')) || 0;
+
     score = 0;
     clickPower = 1;
     pointsPerSecond = 0;
     count = 0;
     highScore = 0;
+
     localStorage.setItem('score', score);
     localStorage.setItem('clickPower', clickPower);
     localStorage.setItem('pointsPerSecond', pointsPerSecond);
     localStorage.setItem('highScore', highScore);
     localStorage.setItem('count', count);
     localStorage.setItem('wholeCount', wholeCount);
+
+    if (previousScore !== score) {
+        window.location.reload();
+    }
+
 }
+
 function submitName() {
     // Pobieranie wartości z inputu
     const nameInput = document.getElementById('nameInput').value.trim();
@@ -96,12 +113,7 @@ function submitName() {
     
     document.querySelector('.rabbit').classList.remove('disabled');
     // Tutaj można dodać funkcję rozpoczynającą nową grę
-    startNewGame();
-}
-
-function onRabbitClick() {
-    alert("Kliknięto na królika! Rozpoczynamy grę.");
-    startNewGame();
+    newGame();
 }
 
 function updateButtonState() {
@@ -223,7 +235,7 @@ updateButtonState();
 
 
         // Tutaj możesz dodać kod, który ma się wykonać po kliknięciu na królika
-clickButton.addEventListener('click', () => {
+rabbit.addEventListener('click', () => {
         
     score += clickPower;
     scoreDisplay.innerText = "Punkty: " + score;
@@ -281,8 +293,8 @@ clickPrize3.addEventListener('click', () => {
 );
 
 clickPrize4.addEventListener('click', () => {
-        if (score >= requiredScore4) {
-            clickPower += 1000;
+    if (score >= requiredScore4) {
+        clickPower += 1000;
             score -= requiredScore4;  // Odejmij wymaganą ilość punktów
             scoreDisplay.innerText = "Punkty: " + score;
             clickPowerDisplay.innerHTML = clickPower;
@@ -295,53 +307,53 @@ clickPrize4.addEventListener('click', () => {
 );
 
 buttonPerSec1.addEventListener('click', () => {
-        if (score >= requiredScorePerSec1) {
-            pointsPerSecond += 1;
-            score -= requiredScorePerSec1;  // Odejmij wymaganą ilość punktów
-            scoreDisplay.innerText = "Punkty: " + score;
-            localStorage.setItem('score', score);
-            localStorage.setItem('pointsPerSecond', pointsPerSecond);
-            updatepeakRate();
-            updateButtonState();
-        }
-    }    
+    if (score >= requiredScorePerSec1) {
+        pointsPerSecond += 1;
+        score -= requiredScorePerSec1;  // Odejmij wymaganą ilość punktów
+        scoreDisplay.innerText = "Punkty: " + score;
+        localStorage.setItem('score', score);
+        localStorage.setItem('pointsPerSecond', pointsPerSecond);
+        updatepeakRate();
+        updateButtonState();
+    }
+}    
 );
 
 buttonPerSec2.addEventListener('click', () => {
-        if (score >= requiredScorePerSec2) {
-            pointsPerSecond += 20;
-            score -= requiredScorePerSec2;  // Odejmij wymaganą ilość punktów
-            scoreDisplay.innerText = "Punkty: " + score;
-            localStorage.setItem('score', score);
-            localStorage.setItem('pointsPerSecond', pointsPerSecond);
-            updatepeakRate();
-            updateButtonState();
-        }
-    }    
+    if (score >= requiredScorePerSec2) {
+        pointsPerSecond += 20;
+        score -= requiredScorePerSec2;  // Odejmij wymaganą ilość punktów
+        scoreDisplay.innerText = "Punkty: " + score;
+        localStorage.setItem('score', score);
+        localStorage.setItem('pointsPerSecond', pointsPerSecond);
+        updatepeakRate();
+        updateButtonState();
+    }
+}    
 );
 
 buttonPerSec3.addEventListener('click', () => {
-        if (score >= requiredScorePerSec3) {
-            pointsPerSecond += 50;
-            score -= requiredScorePerSec3;  // Odejmij wymaganą ilość punktów
-            scoreDisplay.innerText = "Punkty: " + score;
-            localStorage.setItem('score', score);
-            localStorage.setItem('pointsPerSecond', pointsPerSecond);
-            updatepeakRate();
-            updateButtonState();
-        }
-    }    
+    if (score >= requiredScorePerSec3) {
+        pointsPerSecond += 50;
+        score -= requiredScorePerSec3;  // Odejmij wymaganą ilość punktów
+        scoreDisplay.innerText = "Punkty: " + score;
+        localStorage.setItem('score', score);
+        localStorage.setItem('pointsPerSecond', pointsPerSecond);
+        updatepeakRate();
+        updateButtonState();
+    }
+}    
 );
 
 buttonPerSec4.addEventListener('click', () => {
-        if (score >= requiredScorePerSec4) {
-            pointsPerSecond += 200;
-            score -= requiredScorePerSec4;  // Odejmij wymaganą ilość punktów
-            scoreDisplay.innerText = "Punkty: " + score;
-            localStorage.setItem('score', score);
-            localStorage.setItem('pointsPerSecond', pointsPerSecond);
-            updatepeakRate();
-            updateButtonState();
-        }
+    if (score >= requiredScorePerSec4) {
+        pointsPerSecond += 200;
+        score -= requiredScorePerSec4;  // Odejmij wymaganą ilość punktów
+        scoreDisplay.innerText = "Punkty: " + score;
+        localStorage.setItem('score', score);
+        localStorage.setItem('pointsPerSecond', pointsPerSecond);
+        updatepeakRate();
+        updateButtonState();
     }
+}
 );

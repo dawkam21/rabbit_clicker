@@ -21,8 +21,8 @@ const buttonPerSec2 = document.getElementById('buttonPerSec2');
 const buttonPerSec3 = document.getElementById('buttonPerSec3');
 const buttonPerSec4 = document.getElementById('buttonPerSec4');
 const submitButton = document.querySelector('.submit');
-const player = document.getElementById('playerName');
-const playerNameDisplay = document.querySelector('.playerName');
+// const player = document.getElementById('playerName');
+// const playerNameDisplay = document.querySelector('.playerName');
 const playerNameInputDisplay = document.querySelector('.playerNameInput');
 const countDisplay = document.getElementById('count');
 const wholeCountDisplay = document.getElementById('wholeCount');
@@ -68,7 +68,7 @@ function createPointElement(event) {
 rabbit.addEventListener('click', createPointElement);
 
 function newGame() {
-
+    
     let previousScore = parseInt(localStorage.getItem('score')) || 0;
 
     score = 0;
@@ -84,12 +84,10 @@ function newGame() {
     localStorage.setItem('count', count);
     localStorage.setItem('wholeCount', wholeCount);
 
-    if (previousScore !== score) {
-        window.location.reload();
+        if (previousScore !== score) {
+            window.location.reload();
+        }
     }
-
-}
-
 function submitName() {
     // Pobieranie wartości z inputu
     const nameInput = document.getElementById('nameInput').value.trim();
@@ -105,7 +103,7 @@ function submitName() {
     errorMessage.classList.add('hidden');
     
     // Wyświetlanie wiadomości powitalnej
-    document.getElementById('playerName').innerText = nameInput;
+    document.querySelector('.playerName').innerText = nameInput;
     document.getElementById('welcomeMessage').classList.remove('hidden');
     
     // Ukrywanie elementu z inputem
@@ -200,6 +198,45 @@ function updateButtonState() {
         statsPerSec4.style.backgroundColor = 'lightgreen';
     }
 }
+
+    function submitScore() {
+        const name = document.querySelector('#nameInput').value;
+        
+        // Przykładowe dane wraz z aktualnym wynikiem gracza
+        const highScores = [
+            { name: name, score: score },
+            // { name: 'Bob', score: 1400 },
+            // { name: 'Charlie', score: 1350 },
+            // { name: 'David', score: 1300 },
+            // { name: 'Eve', score: 1250 },
+            // { name: 'Frank', score: 1200 },
+            // { name: 'Grace', score: 1150 },
+            // { name: 'Hannah', score: 1100 },
+            // { name: 'Ivy', score: 1050 },
+            // { name: 'Jack', score: 1000 },
+            // { name: 'Kathy', score: 950 }
+        ];
+    
+        // Sortowanie wyników malejąco
+        highScores.sort((a, b) => b.score - a.score);
+    
+        // Skrócenie listy do top 10 wyników
+        const top10Scores = highScores.slice(0, 10);
+    
+        // Pobranie elementu <ul> do którego będą dodawane <li>
+        const highScoresList = document.querySelector('#highScoresList');
+        
+        // Wyczyść poprzednią zawartość listy
+        highScoresList.innerHTML = '';
+    
+        // Iterowanie przez top 10 wyników i dodanie ich do listy
+        top10Scores.forEach((entry, index) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${index + 1}. ${entry.name} - ${entry.score}`;
+            highScoresList.appendChild(listItem);
+        });
+    }
+
 function updatepeakRate() {
     if (score > highScore) {
         highScore = score;

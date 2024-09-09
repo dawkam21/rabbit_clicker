@@ -21,8 +21,7 @@ const buttonPerSec2 = document.getElementById('buttonPerSec2');
 const buttonPerSec3 = document.getElementById('buttonPerSec3');
 const buttonPerSec4 = document.getElementById('buttonPerSec4');
 const submitButton = document.querySelector('.submit');
-// const player = document.getElementById('playerName');
-// const playerNameDisplay = document.querySelector('.playerName');
+const newGameButton = document.querySelector('.newGameButton');
 const playerNameInputDisplay = document.querySelector('.playerNameInput');
 const countDisplay = document.getElementById('count');
 const wholeCountDisplay = document.getElementById('wholeCount');
@@ -67,9 +66,9 @@ function createPointElement(event) {
 
 rabbit.addEventListener('click', createPointElement);
 
+
+
 function newGame() {
-    
-    let previousScore = parseInt(localStorage.getItem('score')) || 0;
 
     score = 0;
     clickPower = 1;
@@ -84,10 +83,12 @@ function newGame() {
     localStorage.setItem('count', count);
     localStorage.setItem('wholeCount', wholeCount);
 
-        if (previousScore !== score) {
-            window.location.reload();
-        }
-    }
+    document.location.reload();
+
+}
+
+newGameButton.addEventListener('click', newGame);
+
 function submitName() {
     // Pobieranie wartości z inputu
     const nameInput = document.getElementById('nameInput').value.trim();
@@ -110,8 +111,6 @@ function submitName() {
     document.querySelector('.box.box3').classList.add('hidden');
     
     document.querySelector('.rabbit').classList.remove('disabled');
-    // Tutaj można dodać funkcję rozpoczynającą nową grę
-    newGame();
 }
 
 function updateButtonState() {
@@ -271,7 +270,7 @@ updatepeakRate();
 updateButtonState();
 
 
-        // Tutaj możesz dodać kod, który ma się wykonać po kliknięciu na królika
+        
 rabbit.addEventListener('click', () => {
         
     score += clickPower;
@@ -290,7 +289,7 @@ clickPrize1.addEventListener('click', () => {
 
         if (score >= requiredScore) {
             clickPower++;
-            score -= requiredScore;  // Odejmij wymaganą ilość punktów
+            score -= requiredScore;  
             scoreDisplay.innerText = "Punkty: " + score;
             clickPowerDisplay.innerHTML = clickPower;
             localStorage.setItem('score', score);
@@ -304,7 +303,7 @@ clickPrize1.addEventListener('click', () => {
 clickPrize2.addEventListener('click', () => {
         if (score >= requiredScore2) {
             clickPower += 25;
-            score -= requiredScore2;  // Odejmij wymaganą ilość punktów
+            score -= requiredScore2;  
             scoreDisplay.innerText = "Punkty: " + score;
             clickPowerDisplay.innerHTML = clickPower;
             localStorage.setItem('score', score);
@@ -318,7 +317,7 @@ clickPrize2.addEventListener('click', () => {
 clickPrize3.addEventListener('click', () => {
         if (score >= requiredScore3) {
             clickPower += 200;
-            score -= requiredScore3;  // Odejmij wymaganą ilość punktów
+            score -= requiredScore3;  
             scoreDisplay.innerText = "Punkty: " + score;
             clickPowerDisplay.innerHTML = clickPower;
             localStorage.setItem('score', score);
@@ -332,7 +331,7 @@ clickPrize3.addEventListener('click', () => {
 clickPrize4.addEventListener('click', () => {
     if (score >= requiredScore4) {
         clickPower += 1000;
-            score -= requiredScore4;  // Odejmij wymaganą ilość punktów
+            score -= requiredScore4; 
             scoreDisplay.innerText = "Punkty: " + score;
             clickPowerDisplay.innerHTML = clickPower;
             localStorage.setItem('score', score);
@@ -346,7 +345,7 @@ clickPrize4.addEventListener('click', () => {
 buttonPerSec1.addEventListener('click', () => {
     if (score >= requiredScorePerSec1) {
         pointsPerSecond += 1;
-        score -= requiredScorePerSec1;  // Odejmij wymaganą ilość punktów
+        score -= requiredScorePerSec1; 
         scoreDisplay.innerText = "Punkty: " + score;
         localStorage.setItem('score', score);
         localStorage.setItem('pointsPerSecond', pointsPerSecond);
@@ -359,7 +358,7 @@ buttonPerSec1.addEventListener('click', () => {
 buttonPerSec2.addEventListener('click', () => {
     if (score >= requiredScorePerSec2) {
         pointsPerSecond += 20;
-        score -= requiredScorePerSec2;  // Odejmij wymaganą ilość punktów
+        score -= requiredScorePerSec2; 
         scoreDisplay.innerText = "Punkty: " + score;
         localStorage.setItem('score', score);
         localStorage.setItem('pointsPerSecond', pointsPerSecond);
@@ -372,7 +371,7 @@ buttonPerSec2.addEventListener('click', () => {
 buttonPerSec3.addEventListener('click', () => {
     if (score >= requiredScorePerSec3) {
         pointsPerSecond += 50;
-        score -= requiredScorePerSec3;  // Odejmij wymaganą ilość punktów
+        score -= requiredScorePerSec3;
         scoreDisplay.innerText = "Punkty: " + score;
         localStorage.setItem('score', score);
         localStorage.setItem('pointsPerSecond', pointsPerSecond);
@@ -385,7 +384,7 @@ buttonPerSec3.addEventListener('click', () => {
 buttonPerSec4.addEventListener('click', () => {
     if (score >= requiredScorePerSec4) {
         pointsPerSecond += 200;
-        score -= requiredScorePerSec4;  // Odejmij wymaganą ilość punktów
+        score -= requiredScorePerSec4;
         scoreDisplay.innerText = "Punkty: " + score;
         localStorage.setItem('score', score);
         localStorage.setItem('pointsPerSecond', pointsPerSecond);
